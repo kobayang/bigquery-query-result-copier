@@ -26,15 +26,25 @@ function copyTextToClipboard(text) {
 
 function getQueryResultsFromTable() {
   // TODO: Implement to get query results.
-  window.alert("Copy Query Result");
-
   return {
     headers: ["notification_count", "read_count", "click_count"],
     body: [[102083, 23883, 2303]],
   };
 }
 
-function convertDataToMarkdownTableText(tableData) {}
+function convertDataToMarkdownTableText(tableData) {
+  const convertLine = function(lineData) {
+    return lineData.join(" | ");
+  };
+  const createEmptyLine = function(columnSize) {
+    return Array.from({ length: columnSize }, (_, i) => "--").join(" | ");
+  };
+  return [
+    convertLine(tableData.headers),
+    createEmptyLine(tableData.headers.length),
+    ...tableData.body.map(convertLine),
+  ].join("\n");
+}
 
 // Observe event from popup.js
 chrome.runtime.onMessage.addListener(message => {
