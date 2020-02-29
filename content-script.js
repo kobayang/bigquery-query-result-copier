@@ -14,7 +14,7 @@ function copyTextToClipboard(text) {
   copyFrom.select();
 
   //Execute command
-  document.execCommand('copy');
+  document.execCommand("copy");
 
   //(Optional) De-select the text using blur().
   copyFrom.blur();
@@ -24,11 +24,24 @@ function copyTextToClipboard(text) {
   document.body.removeChild(copyFrom);
 }
 
+function getQueryResultsFromTable() {
+  // TODO: Implement to get query results.
+  window.alert("Copy Query Result");
+
+  return {
+    headers: ["notification_count", "read_count", "click_count"],
+    body: [[102083, 23883, 2303]],
+  };
+}
+
+function convertDataToMarkdownTableText(tableData) {}
+
 // Observe event from popup.js
 chrome.runtime.onMessage.addListener(message => {
-  if (message.type !== 'CLICK_COPY') {
+  if (message.type !== "CLICK_COPY") {
     return;
   }
-  // TODO: Implement to get query results.
-  window.alert('Copy Query Result');
+  const tableData = getQueryResultsFromTable();
+  const tableText = convertDataToMarkdownTableText(tableData);
+  copyTextToClipboard(tableText);
 });
