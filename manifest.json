@@ -3,10 +3,6 @@
   "description": "This extension enable to copy bigquery query result to github editor easily.",
   "version": "1.0",
   "manifest_version": 2,
-  "browser_action": {
-    "default_title": "Copy Results",
-    "default_popup": "popup.html"
-  },
   "content_scripts": [
     {
       "matches": ["https://console.cloud.google.com/bigquery*"],

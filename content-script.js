@@ -82,14 +82,6 @@ function copy(callback = null) {
   }
 }
 
-// Observe event from popup.js
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type !== "CLICK_COPY") {
-    return;
-  }
-  copy(sendResponse);
-});
-
 const copyText = document.createTextNode("Copy");
 const copyButton = document.createElement("button");
 
@@ -123,8 +115,6 @@ copyButton.addEventListener("click", () => {
     }
   });
 });
-
-console.log(copyButton);
 
 copyButton.appendChild(copyText);
 document.body.appendChild(copyButton);
