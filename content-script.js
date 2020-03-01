@@ -58,7 +58,6 @@ function getQueryResultsFromTable() {
 }
 
 function convertDataToMarkdownTableText(tableData) {
-  console.log(tableData);
   const convertLine = function(lineData) {
     return lineData.join(" | ");
   };
@@ -77,7 +76,14 @@ chrome.runtime.onMessage.addListener(message => {
   if (message.type !== "CLICK_COPY") {
     return;
   }
-  const tableData = getQueryResultsFromTable();
-  const tableText = convertDataToMarkdownTableText(tableData);
-  copyTextToClipboard(tableText);
+
+  try {
+    const tableData = getQueryResultsFromTable();
+    const tableText = convertDataToMarkdownTableText(tableData);
+    copyTextToClipboard(tableText);
+    console.log("copied!");
+    console.log(tableText);
+  } catch (error) {
+    console.error(error);
+  }
 });
