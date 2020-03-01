@@ -71,19 +71,60 @@ function convertDataToMarkdownTableText(tableData) {
   ].join("\n");
 }
 
-// Observe event from popup.js
-chrome.runtime.onMessage.addListener(message => {
-  if (message.type !== "CLICK_COPY") {
-    return;
-  }
-
+function copy(callback = null) {
   try {
     const tableData = getQueryResultsFromTable();
-    const tableText = convertDataToMarkdownTableText(tableData);
-    copyTextToClipboard(tableText);
-    console.log("copied!");
-    console.log(tableText);
+    const text = convertDataToMarkdownTableText(tableData);
+    copyTextToClipboard(text);
+    typeof callback === "function" && callback({ type: "COPIED", text });
   } catch (error) {
-    console.error(error);
+    typeof callback === "function" && callback({ type: "ERROR", error });
   }
+}
+
+// Observe event from popup.js
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type !== "CLICK_COPY") {
+    return;
+  }
+  copy(sendResponse);
 });
+
+const copyText = document.createTextNode("Copy");
+const copyButton = document.createElement("button");
+
+copyButton.style.cssText = `
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  border-radius: 24px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.1);
+  height: 36px;
+  line-height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.56);
+  outline: none;
+  min-width: 60px;
+  border-style: none;
+`;
+
+copyButton.addEventListener("click", () => {
+  copy(response => {
+    console.log(response);
+
+    if (response.type === "COPIED") {
+      copyButton.textContent = "Copied!";
+      setTimeout(() => {
+        copyButton.textContent = "Copy";
+      }, 2000);
+    }
+  });
+});
+
+console.log(copyButton);
+
+copyButton.appendChild(copyText);
+document.body.appendChild(copyButton);
