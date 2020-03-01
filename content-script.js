@@ -24,15 +24,41 @@ function copyTextToClipboard(text) {
   document.body.removeChild(copyFrom);
 }
 
+function getDataFromTableRow(row) {
+  const arr = [];
+
+  const length = row.length;
+  // First column is Row data and Last column is empty data, so ignore those data.
+  for (let col = 1; col < length - 1; col++) {
+    const column = row[col];
+    arr.push(column.textContent.trim());
+  }
+  return arr;
+}
+
 function getQueryResultsFromTable() {
-  // TODO: Implement to get query results.
+  const bqResultTable = document.getElementsByTagName("bq-results-table")[0];
+  const table = bqResultTable.getElementsByTagName("table")[0];
+
+  const thead = table.getElementsByTagName("thead")[0];
+  const headers = getDataFromTableRow(thead.getElementsByTagName("th"));
+
+  const tbody = table.getElementsByTagName("tbody")[0];
+  const bodyRows = tbody.getElementsByTagName("tr");
+
+  const body = [];
+  for (let row = 0; row < bodyRows.length; row++) {
+    body.push(getDataFromTableRow(bodyRows[row].getElementsByTagName("td")));
+  }
+
   return {
-    headers: ["notification_count", "read_count", "click_count"],
-    body: [[102083, 23883, 2303]],
+    headers,
+    body,
   };
 }
 
 function convertDataToMarkdownTableText(tableData) {
+  console.log(tableData);
   const convertLine = function(lineData) {
     return lineData.join(" | ");
   };
