@@ -57,11 +57,23 @@ function getQueryResultsFromTable() {
   };
 }
 
+function getSQLFromCodeMirror() {
+  let str = "";
+  const lines = document.getElementsByClassName("CodeMirror-line");
+  if (!lines || lines.length === 0) return null;
+  Array.from(Array(lines.length), function (_, index) {
+    const line = lines[index];
+    str += line.textContent;
+    str += "\n";
+  });
+  return "```sql\n" + str + "```";
+}
+
 function convertDataToMarkdownTableText(tableData) {
-  const convertLine = function(lineData) {
+  const convertLine = function (lineData) {
     return lineData.join(" | ");
   };
-  const createEmptyLine = function(columnSize) {
+  const createEmptyLine = function (columnSize) {
     return Array.from({ length: columnSize }, (_, i) => "--").join(" | ");
   };
   return [
@@ -74,7 +86,12 @@ function convertDataToMarkdownTableText(tableData) {
 function copy(callback = null) {
   try {
     const tableData = getQueryResultsFromTable();
-    const text = convertDataToMarkdownTableText(tableData);
+    const tableText = convertDataToMarkdownTableText(tableData);
+
+    const codeText = getSQLFromCodeMirror();
+
+    const text = [tableText, codeText].filter(Boolean).join("\n\n");
+
     copyTextToClipboard(text);
     typeof callback === "function" && callback({ type: "COPIED", text });
   } catch (error) {
@@ -104,7 +121,7 @@ copyButton.style.cssText = `
 `;
 
 copyButton.addEventListener("click", () => {
-  copy(response => {
+  copy((response) => {
     console.log(response);
 
     if (response.type === "COPIED") {
