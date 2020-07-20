@@ -2,4 +2,8 @@
 
 This chrome extension enable to copy bigquery query result to github editor easily.
 
-![a](https://user-images.githubusercontent.com/12181179/75618920-2325a080-5bb8-11ea-92e0-bc8f6ff8ec9c.gif)
+https://chrome.google.com/webstore/detail/bigquery-query-result-cop/obgoeljjeilmhgolgnkdgmhbcnocknoi
+
+## Gif
+
+![2020-07-20 19 25 30](https://user-images.githubusercontent.com/12181179/87927917-ec94e780-cabe-11ea-84f8-fe843314c904.gif)
