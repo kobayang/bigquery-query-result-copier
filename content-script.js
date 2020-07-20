@@ -69,18 +69,26 @@ function getSQLFromCodeMirror() {
   return "```sql\n" + str + "```";
 }
 
+function joinTableLineData(lineData) {
+  if (lineData.length === 0) return null;
+  return lineData.join(" | ") + " | ";
+}
+
 function convertDataToMarkdownTableText(tableData) {
   const convertLine = function (lineData) {
-    return lineData.join(" | ");
+    return joinTableLineData(lineData);
   };
   const createEmptyLine = function (columnSize) {
-    return Array.from({ length: columnSize }, (_, i) => "--").join(" | ");
+    const emptyLineData = Array.from({ length: columnSize }, (_, i) => "--");
+    return joinTableLineData(emptyLineData);
   };
   return [
     convertLine(tableData.headers),
     createEmptyLine(tableData.headers.length),
     ...tableData.body.map(convertLine),
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 function copy(callback = null) {
