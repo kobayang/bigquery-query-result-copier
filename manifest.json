@@ -1,7 +1,7 @@
 {
   "name": "Bigquery query result copier",
   "description": "This extension enable to copy bigquery query result to github editor easily.",
-  "version": "2.0",
+  "version": "3.0",
   "manifest_version": 2,
   "content_scripts": [
     {
