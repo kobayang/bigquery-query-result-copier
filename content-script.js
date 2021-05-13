@@ -63,6 +63,13 @@ function getSQLFromCodeMirror() {
   if (!lines || lines.length === 0) return null;
   Array.from(Array(lines.length), function (_, index) {
     const line = lines[index];
+
+    // To format lines.
+    const isLast = index === lines.length - 1;
+    const isEmptyLine = !line.textContent.trim();
+
+    if (isLast && isEmptyLine) return;
+
     str += line.textContent;
     str += "\n";
   });
