@@ -74,7 +74,9 @@ function getSQLFromCodeMirror() {
     str += "\n";
   });
   return (
-    "<details>\n<summary>Query</summary>\n```sql\n" + str + "```\n</details>"
+    "<details>\n<summary>Query</summary>\n\n```sql\n" +
+    str +
+    "```\n\n</details>"
   );
 }
 
