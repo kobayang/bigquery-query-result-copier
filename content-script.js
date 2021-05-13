@@ -59,14 +59,16 @@ function getQueryResultsFromTable() {
 
 function getSQLFromCodeMirror() {
   let str = "";
-  const lines = document.getElementsByClassName("CodeMirror-line");
+  const lines = document.getElementsByClassName("view-line");
   if (!lines || lines.length === 0) return null;
   Array.from(Array(lines.length), function (_, index) {
     const line = lines[index];
     str += line.textContent;
     str += "\n";
   });
-  return "```sql\n" + str + "```";
+  return (
+    "<details>\n<summary>Query</summary>\n```sql\n" + str + "```\n</details>"
+  );
 }
 
 function joinTableLineData(lineData) {
