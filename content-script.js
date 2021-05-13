@@ -59,14 +59,25 @@ function getQueryResultsFromTable() {
 
 function getSQLFromCodeMirror() {
   let str = "";
-  const lines = document.getElementsByClassName("CodeMirror-line");
+  const lines = document.getElementsByClassName("view-line");
   if (!lines || lines.length === 0) return null;
   Array.from(Array(lines.length), function (_, index) {
     const line = lines[index];
+
+    // To format lines.
+    const isLast = index === lines.length - 1;
+    const isEmptyLine = !line.textContent.trim();
+
+    if (isLast && isEmptyLine) return;
+
     str += line.textContent;
     str += "\n";
   });
-  return "```sql\n" + str + "```";
+  return (
+    "<details>\n<summary>Query</summary>\n\n```sql\n" +
+    str +
+    "```\n\n</details>"
+  );
 }
 
 function joinTableLineData(lineData) {
