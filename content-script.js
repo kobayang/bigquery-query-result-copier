@@ -37,7 +37,7 @@ function getDataFromTableRow(row) {
 }
 
 function getQueryResultsFromTable() {
-  const bqResultTable = document.getElementsByTagName("bq-results-table")[0];
+  const bqResultTable = document.getElementsByTagName("bq-nestable-table")[0];
   const table = bqResultTable.getElementsByTagName("table")[0];
 
   const thead = table.getElementsByTagName("thead")[0];
