@@ -137,6 +137,7 @@ copyButton.style.cssText = `
   outline: none;
   min-width: 60px;
   border-style: none;
+  z-index: 1;
 `;
 
 copyButton.addEventListener("click", () => {
